@@ -1,0 +1,20 @@
+<nb-card size="small" accent="info">
+  <nb-card-header>P0</nb-card-header>
+  <nb-card-body>
+    <div class="row">
+      <div class="col-sm-12">
+        <label for="llegada" class="label">T. Llegada</label><br>
+        <input nbInput fullWidth type="number" name="llegada" id="llegada" fieldSize="tiny" status="primary" shape="semi-round" [min]="0">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <label for="cpu" class="label">NCPU</label>
+        <input nbInput fullWidth type="number" name="cpu" id="cpu" fieldSize="tiny" status="primary" shape="semi-round" [min]="1">
+      </div>
+    </div>
+  </nb-card-body>
+  <nb-card-footer>
+    <button nbButton (click)="crearEyS()" status="basic">Nueva E/S</button>
+  </nb-card-footer>
+</nb-card>

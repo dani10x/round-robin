@@ -1,0 +1,18 @@
+<nb-card>
+  <nb-card-header>Configuración de E/S</nb-card-header>
+  <nb-card-body>
+    <div class="row">
+      <div class="col-sm-6">
+        <label for="cpu" class="label">NCPU</label>
+        <input nbInput fullWidth type="number" name="cpu" id="cpu" shape="semi-round" [min]="1">
+      </div>
+      <div class="col-sm-6">
+        <label for="eys" class="label">E/S</label>
+        <input nbInput fullWidth type="number" name="eys" id="eys" shape="semi-round" [min]="1">
+      </div>
+    </div>
+  </nb-card-body>
+  <nb-card-footer>
+    <button nbButton status="primary">Agregar</button>
+  </nb-card-footer>
+</nb-card>
