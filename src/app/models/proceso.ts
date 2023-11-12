@@ -1,15 +1,12 @@
 import { EntradaYSalida } from "./entradaYSalida";
 
 export class Proceso {
-  identificador: number;
-  tiempoLlegada: number;
-  necesidadCPU: number;
-  entradasSalidas: EntradaYSalida[];
+  identificador!: number;
+  tiempoLlegada!: number;
+  necesidadCPU!: number;
+  entradasSalidas!: EntradaYSalida[];
 
-  constructor(identificador: number, tiempoLlegada: number, necesidadCPU: number) {
-    this.identificador = identificador;
-    this.tiempoLlegada = tiempoLlegada;
-    this.necesidadCPU = necesidadCPU;
+  constructor() {
     this.entradasSalidas = [];
   }
 

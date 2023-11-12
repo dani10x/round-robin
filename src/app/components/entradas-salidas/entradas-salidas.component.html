@@ -1,18 +1,37 @@
 <nb-card>
   <nb-card-header>Configuración de E/S</nb-card-header>
   <nb-card-body>
-    <div class="row">
-      <div class="col-sm-6">
-        <label for="cpu" class="label">NCPU</label>
-        <input nbInput fullWidth type="number" name="cpu" id="cpu" shape="semi-round" [min]="1">
+    <form [formGroup]="entradaSalidaForm">
+      <div class="row">
+        <div class="col-sm-6">
+          <label for="eys" class="label">E/S (Q)</label>
+          <input nbInput fullWidth type="number" name="eys" id="eys" shape="semi-round" formControlName="eys" [min]="1">
+          <ng-container
+            *ngIf="entradaSalidaForm.controls['eys'].invalid && (entradaSalidaForm.controls['eys'].dirty || entradaSalidaForm.controls['eys'].touched)">
+            <p class="caption status-danger" *ngIf="entradaSalidaForm.controls['eys'].errors?.['required']">El
+              campo es obligatorio</p>
+            <p class="caption status-danger"
+              *ngIf="entradaSalidaForm.controls['eys'].errors?.['min'] || entradaSalidaForm.controls['eys'].errors?.['max']">
+              El tiempo de E/S no es válido</p>
+          </ng-container>
+        </div>
+        <div class="col-sm-6">
+          <label for="cpu" class="label">NCPU (Q)</label>
+          <input nbInput fullWidth type="number" name="cpu" id="cpu" shape="semi-round" formControlName="cpu" [min]="1">
+          <ng-container
+            *ngIf="entradaSalidaForm.controls['cpu'].invalid && (entradaSalidaForm.controls['cpu'].dirty || entradaSalidaForm.controls['cpu'].touched)">
+            <p class="caption status-danger" *ngIf="entradaSalidaForm.controls['cpu'].errors?.['required']">El
+              campo es obligatorio</p>
+            <p class="caption status-danger"
+              *ngIf="entradaSalidaForm.controls['cpu'].errors?.['min'] || entradaSalidaForm.controls['cpu'].errors?.['max']">
+              El tiempo de CPU luego de la E/S no es válido</p>
+          </ng-container>
+        </div>
       </div>
-      <div class="col-sm-6">
-        <label for="eys" class="label">E/S</label>
-        <input nbInput fullWidth type="number" name="eys" id="eys" shape="semi-round" [min]="1">
-      </div>
-    </div>
+    </form>
   </nb-card-body>
   <nb-card-footer>
-    <button nbButton status="primary">Agregar</button>
+    <button nbButton (click)="cancelar()">Cancelar</button>
+    <button nbButton status="primary" (click)="cerrar()">Agregar</button>
   </nb-card-footer>
 </nb-card>

@@ -2,19 +2,15 @@
   <nb-card-header>Agregar Procesos</nb-card-header>
   <nb-card-body>
     <div class="row">
-      <div class="col-sm-3">
-        <app-proceso></app-proceso>
-      </div>
-      <div class="col-sm-3">
-        <app-proceso></app-proceso>
-      </div>
-      <div class="col-sm-3">
-        <app-proceso></app-proceso>
-      </div>
-      <div class="col-sm-3">
-        <app-proceso></app-proceso>
+      <div class="col-sm-3" *ngFor="let item of nuevosProcesos">
+        <app-proceso (nuevoProceso)="nuevoProceso($event)"></app-proceso>
       </div>
     </div>
   </nb-card-body>
-  <nb-card-footer></nb-card-footer>
+  <nb-card-footer>
+    <div class="container-btn">
+      <button nbButton status="success" (click)="crearProceso()">Nuevo Proceso</button>
+      <button nbButton status="primary" (click)="continuar()">Confirmar</button>
+    </div>
+  </nb-card-footer>
 </nb-card>
