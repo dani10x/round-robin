@@ -1,0 +1,40 @@
+import { Component, OnInit } from '@angular/core';
+import { NbIconConfig, NbToastrService } from '@nebular/theme';
+import { Proceso } from 'src/app/models/proceso';
+
+@Component({
+  selector: 'app-agregar-procesos',
+  templateUrl: './agregar-procesos.component.html',
+  styleUrls: ['./agregar-procesos.component.css']
+})
+export class AgregarProcesosComponent implements OnInit {
+
+  procesos!: Proceso[];
+  nuevosProcesos!: number[];
+
+  constructor(private toastrService: NbToastrService) { }
+
+  ngOnInit(): void {
+    this.procesos = [];
+    this.nuevosProcesos = [];
+  }
+
+  public nuevoProceso(proceso: Proceso): void {
+    this.procesos.push(proceso);
+  }
+
+  /**
+   * Crea un nuevo proceso cada que se hace click en el boton de crear proceso añadiendo nuevo elemento al array contador
+   */
+  public crearProceso(): void {
+    this.nuevosProcesos.push(0);
+  }
+
+  public continuar(): void {
+    if (this.procesos.length === 0) {
+      this.toastrService.show("Se debe guardar por lo menos un proceso", "Error", { status: "danger", icon: "alert-circle-outline" })
+      return;
+    }
+  }
+
+}

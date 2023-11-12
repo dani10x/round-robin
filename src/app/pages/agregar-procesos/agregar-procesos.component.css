@@ -1,0 +1,8 @@
+.container-btn {
+  display: flex;
+  justify-content: flex-end;
+}
+
+button {
+  margin: 1%;
+}

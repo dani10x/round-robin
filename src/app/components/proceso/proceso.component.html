@@ -1,0 +1,48 @@
+<nb-card size="small" accent="info">
+  <nb-card-header>P{{proceso.identificador}}</nb-card-header>
+  <nb-card-body>
+    <form [formGroup]="procesoForm">
+      <div class="row">
+        <div class="col-sm-12">
+          <label for="llegada" class="label">T. Llegada (Ms)</label><br>
+          <input nbInput fullWidth type="number" name="llegada" id="llegada" fieldSize="tiny" status="primary"
+            shape="semi-round" formControlName="llegada" [min]="0">
+          <ng-container
+            *ngIf="procesoForm.controls['llegada'].invalid && (procesoForm.controls['llegada'].dirty || procesoForm.controls['llegada'].touched)">
+            <p class="caption status-danger" *ngIf="procesoForm.controls['llegada'].errors?.['required']">El
+              campo es obligatorio</p>
+            <p class="caption status-danger"
+              *ngIf="procesoForm.controls['llegada'].errors?.['min'] || procesoForm.controls['llegada'].errors?.['max']">
+              El tiempo de llegada no es válido</p>
+          </ng-container>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <label for="cpu" class="label">NCPU (Q)</label>
+          <input nbInput fullWidth type="number" name="cpu" id="cpu" fieldSize="tiny" status="primary"
+            shape="semi-round" formControlName="cpu" [min]="1">
+          <ng-container
+            *ngIf="procesoForm.controls['cpu'].invalid && (procesoForm.controls['cpu'].dirty || procesoForm.controls['cpu'].touched)">
+            <p class="caption status-danger" *ngIf="procesoForm.controls['cpu'].errors?.['required']">El
+              campo es obligatorio</p>
+            <p class="caption status-danger"
+              *ngIf="procesoForm.controls['cpu'].errors?.['min'] || procesoForm.controls['cpu'].errors?.['max']">
+              La necesidad de CPU no es válida</p>
+          </ng-container>
+        </div>
+      </div>
+    </form>
+    <div class="row">
+      <nb-list>
+        <nb-list-item *ngFor="let item of proceso.entradasSalidas">
+          <app-entrada-salida-elemento [EyS]="item.tiempoEYS"
+            [ncpu]="item.necesidadCPU"></app-entrada-salida-elemento></nb-list-item>
+      </nb-list>
+    </div>
+  </nb-card-body>
+  <nb-card-footer *ngIf="mostrarAcciones">
+    <button nbButton (click)="crearEyS()" status="basic">Nueva E/S</button>
+    <button nbButton status="primary" (click)="guardar()">Guardar</button>
+  </nb-card-footer>
+</nb-card>
