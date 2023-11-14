@@ -52,7 +52,7 @@ export class ProcesoComponent implements OnInit {
 
   private initForm(): void {
     this.procesoForm = this.fb.group({
-      llegada: ['', [Validators.required, Validators.min(0), Validators.max(9000)]],
+      llegada: ['', [Validators.required, Validators.min(1), Validators.max(9000)]],
       cpu: ['', [Validators.required, Validators.min(1), Validators.max(100)]]
     });
   }

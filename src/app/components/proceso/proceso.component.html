@@ -6,7 +6,7 @@
         <div class="col-sm-12">
           <label for="llegada" class="label">T. Llegada (Ms)</label><br>
           <input nbInput fullWidth type="number" name="llegada" id="llegada" fieldSize="tiny" status="primary"
-            shape="semi-round" formControlName="llegada" [min]="0">
+            shape="semi-round" formControlName="llegada" [min]="1">
           <ng-container
             *ngIf="procesoForm.controls['llegada'].invalid && (procesoForm.controls['llegada'].dirty || procesoForm.controls['llegada'].touched)">
             <p class="caption status-danger" *ngIf="procesoForm.controls['llegada'].errors?.['required']">El

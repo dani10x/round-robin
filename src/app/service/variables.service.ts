@@ -5,8 +5,14 @@ import { Injectable } from '@angular/core';
 })
 export class VariablesService {
 
-  //Propiedad global que define que un Q = 1ms
-  private QUANTUM: number = 1;
+  /**
+   * Propiedad global que define que un Q = 100ms
+   */
+  private QUANTUM: number = 2;
+  /**
+   * Tiempo de intercambio en Ms
+   */
+  private INTERCAMBIO: number = 1;
 
   constructor() { }
 
@@ -24,5 +30,21 @@ export class VariablesService {
    */
   public getTamanioQ(): number {
     return this.QUANTUM;
+  }
+
+  /**
+   * Método para asignar el tamaño del intercambio
+   * @param ms Tamaño del intercambio en milisegundos
+   */
+  public setIntercambio(ms: number): void {
+    this.INTERCAMBIO = ms;
+  }
+
+  /**
+   * Método para obtener el valor del intercambio en ms
+   * @returns Intercambio en milisegundos
+   */
+  public getIntercambio(): number {
+    return this.INTERCAMBIO;
   }
 }
