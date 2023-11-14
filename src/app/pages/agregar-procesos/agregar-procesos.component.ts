@@ -37,7 +37,6 @@ export class AgregarProcesosComponent implements OnInit {
       return;
     }
     this.roundRobinService.setProcesos(this.procesos);
-    //this.roundRobinService.ordenar();
     this.roundRobinService.roundRobin();
   }
 

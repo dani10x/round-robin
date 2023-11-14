@@ -8,16 +8,25 @@ import { MetodosUtil } from '../utils/metodos';
 })
 export class RoundRobinService {
 
-  procesos: Proceso[] = [];
-  colaListos: Proceso[] = [];
-  calaEyS: Proceso[] = [];
-  tiempo: number = 1;
-  procesadorListo = true;
-  procesoEnProcesador!: Proceso;
+  /**Cola de procesos nuevos */
+  private procesos: Proceso[] = [];
+  /**Cola de procesos listos */
+  private colaListos: Proceso[] = [];
+  /**Contador del tiempo en Ms de ejecución */
+  private tiempo: number = 1;
+  /**Bandera que indica que ell procesador esta listo para ser utilizado */
+  private procesadorListo = true;
+  /**Proceso que se encuentra activo en el procesador (identificador = -1, cuando no hay procesos en el procesador) */
+  private procesoEnProcesador!: Proceso;
+  /**Valor en Ms del intercambio, (se toma el valor desde el servicio de variables) */
   private INTERCAMBIO: number;
+  /**Valor en Ms del quantum, (se toma el valor desde el servicio de variables) */
   private Q: number;
+  /**Tiempo en Ms que se ha cumplido de un proceso en el procesador (0 indica que se ha completado) */
   private tiempoQ = 0;
+  /**Tiempo en Ms que se ha cumplido de un proceso que esté realizando intercambio  (0 indica que se ha completado) */
   private tiempoI = 0;
+  /**Bandera que indica que se está realizando intercambio */
   private intercambio = false;
 
   constructor(variablesService: VariablesService) {
@@ -25,10 +34,21 @@ export class RoundRobinService {
     this.Q = variablesService.getTamanioQ();
   }
 
+  /**
+   * Criterio para ordenar los procesos de forma ascendente de acuerdo con su tiempo de llegada
+   * @param a Proceso 1 a comparar
+   * @param b Proceso 2 a comparar
+   * @returns criterio de orden: negativo (si b es mayor que a), positivo (si a es mayor que b), cero (si a y b son iguales)
+   */
   private ordenarProcesoAscendente(a: Proceso, b: Proceso): number {
     return a.tiempoLlegada - b.tiempoLlegada
   }
 
+  /**
+   * Método de entrada necesario para la ejecución del algoritmo Round-Robin.
+   * Recibe los procesos sobre los cuales se aplicará la simulación
+   * @param procesos Array con los procesos
+   */
   public setProcesos(procesos: Proceso[]): void {
     this.procesos = procesos;
   }
@@ -88,7 +108,9 @@ export class RoundRobinService {
   }
 
   /**
-   * Realiza la resta de necesidad de quantum al proceso que esta activo en la cpu
+   * Realiza la resta de necesidad de quantum al proceso que esta activo en la cpu,
+   * si el proceso aun necesita mas tiempo de procesador, lo retorna a la cola de listos,
+   * de lo contrario lo manda a realizar entradas y salidas
    */
   private restarNecesidadQ(): void {
     this.procesoEnProcesador.necesidadCPU--;
@@ -148,6 +170,15 @@ export class RoundRobinService {
     }
   }
 
+  /**
+   * Método que realiza las entradas y salidas de cada proceso,
+   * se saca el objeto eys del array de entradas y salidas del proceso,
+   * se calcula el tiempo en el que el proceso volveria a entrar de acuerdo con su tiempo de eys
+   * y este vuelve a entrar a la cola de procesos con el nuevo tiempo de entrada y necesidad de cpu.
+   *
+   * Si el proceso no tiene entradas y salidas, finaliza la ejecución de dicho proceso
+   * @param proceso proceso sobre el cual se realizará la opración de entrada y salida
+   */
   private realizarEyS(proceso: Proceso): void {
     let eys = proceso.entradasSalidas.shift();
     if(eys) {
@@ -155,7 +186,7 @@ export class RoundRobinService {
       proceso.necesidadCPU = eys.necesidadCPU;
       this.procesos.push(proceso);
       this.procesos.sort(this.ordenarProcesoAscendente);
-      console.log('realiza e/s: ' + proceso.identificador +  'llegada en: ' + proceso.tiempoLlegada)
+      console.log('realiza e/s: ' + proceso.identificador +  ', llegada en: ' + proceso.tiempoLlegada)
     }
   }
 
