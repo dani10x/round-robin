@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Proceso } from '../models/proceso';
 import { VariablesService } from './variables.service';
+import { MetodosUtil } from '../utils/metodos';
 
 @Injectable({
   providedIn: 'root'
@@ -47,7 +48,7 @@ export class RoundRobinService {
         console.log('finalizacion');
         break;
       }
-      if (this.tiempo === 10000) {
+      if (this.tiempo === 20000) {
         console.log('time out');
         break;
       }
@@ -98,11 +99,11 @@ export class RoundRobinService {
     else {
       let copiaProceso = Object.assign({}, this.procesoEnProcesador);
       copiaProceso.identificador = -1;
+      this.realizarEyS(this.procesoEnProcesador);
       this.procesoEnProcesador = copiaProceso;
       console.log(this.procesos);
       console.log(this.colaListos);
       console.log(this.procesoEnProcesador);
-      //entradasSalidas
     }
   }
 
@@ -144,6 +145,17 @@ export class RoundRobinService {
       this.restarNecesidadQ();
       //Indicamos que el intercambio a finalizado
       this.intercambio = false;
+    }
+  }
+
+  private realizarEyS(proceso: Proceso): void {
+    let eys = proceso.entradasSalidas.shift();
+    if(eys) {
+      proceso.tiempoLlegada = MetodosUtil.quantumToMs(eys.tiempoEYS, this.Q) + this.tiempo;
+      proceso.necesidadCPU = eys.necesidadCPU;
+      this.procesos.push(proceso);
+      this.procesos.sort(this.ordenarProcesoAscendente);
+      console.log('realiza e/s: ' + proceso.identificador +  'llegada en: ' + proceso.tiempoLlegada)
     }
   }
 

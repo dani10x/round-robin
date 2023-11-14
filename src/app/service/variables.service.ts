@@ -8,11 +8,11 @@ export class VariablesService {
   /**
    * Propiedad global que define que un Q = 100ms
    */
-  private QUANTUM: number = 2;
+  private QUANTUM: number = 100;
   /**
    * Tiempo de intercambio en Ms
    */
-  private INTERCAMBIO: number = 1;
+  private INTERCAMBIO: number = 10;
 
   constructor() { }
 
