@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { NbDialogService } from '@nebular/theme';
 import { EntradasSalidasComponent } from '../entradas-salidas/entradas-salidas.component';
-import { EntradaYSalida } from 'src/app/models/entradaYSalida';
+import { EntradaYSalida } from 'src/app/models/entrada-y-salida';
 import { Proceso } from 'src/app/models/proceso';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ProcesoService } from 'src/app/service/proceso.service';

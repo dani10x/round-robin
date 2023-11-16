@@ -11,6 +11,7 @@ import { AgregarProcesosComponent } from './pages/agregar-procesos/agregar-proce
 import { EntradasSalidasComponent } from './components/entradas-salidas/entradas-salidas.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EntradaSalidaElementoComponent } from './components/entrada-salida-elemento/entrada-salida-elemento.component';
+import { VariablesComponent } from './pages/variables/variables.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { EntradaSalidaElementoComponent } from './components/entrada-salida-elem
     ProcesoComponent,
     AgregarProcesosComponent,
     EntradasSalidasComponent,
-    EntradaSalidaElementoComponent
+    EntradaSalidaElementoComponent,
+    VariablesComponent
   ],
   imports: [
     BrowserModule,

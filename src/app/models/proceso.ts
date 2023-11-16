@@ -1,4 +1,4 @@
-import { EntradaYSalida } from "./entradaYSalida";
+import { EntradaYSalida } from "./entrada-y-salida";
 
 export class Proceso {
   identificador!: number;

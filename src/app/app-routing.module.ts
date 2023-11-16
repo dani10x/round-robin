@@ -2,10 +2,12 @@ import { NgModule } from '@angular/core';
 
 import { Routes, RouterModule } from '@angular/router';
 import { AgregarProcesosComponent } from './pages/agregar-procesos/agregar-procesos.component';
+import { VariablesComponent } from './pages/variables/variables.component';
 
 const routes: Routes = [
   { path: 'procesos', component: AgregarProcesosComponent },
-  { path: '', redirectTo: '/procesos', pathMatch: 'full'}
+  { path: 'configuracion', component: VariablesComponent },
+  { path: '', redirectTo: '/configuracion', pathMatch: 'full'}
 ];
 
 @NgModule({
