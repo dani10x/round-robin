@@ -1,0 +1,40 @@
+<nb-card>
+  <nb-card-header>Configuración de Variables</nb-card-header>
+  <nb-card-body>
+    <form [formGroup]="variablesForm">
+      <div class="row">
+        <div class="col-sm-6">
+          <label for="quantum" class="label">Tiempo de un Q (Ms)</label>
+          <input nbInput fullWidth type="number" name="quantum" id="quantum" status="primary" shape="semi-round"
+            formControlName="quantum" [min]="1">
+          <ng-container
+            *ngIf="variablesForm.controls['quantum'].invalid && (variablesForm.controls['quantum'].dirty || variablesForm.controls['quantum'].touched)">
+            <p class="caption status-danger" *ngIf="variablesForm.controls['quantum'].errors?.['required']">El
+              campo es obligatorio</p>
+            <p class="caption status-danger"
+              *ngIf="variablesForm.controls['quantum'].errors?.['min'] || variablesForm.controls['quantum'].errors?.['max']">
+              El tiempo de quantum no es válido</p>
+          </ng-container>
+        </div>
+        <div class="col-sm-6">
+          <label for="intercambio" class="label">Tiempo de Intercambio (Ms)</label>
+          <input nbInput fullWidth type="number" name="intercambio" id="intercambio" status="primary" shape="semi-round"
+            formControlName="intercambio" [min]="1">
+          <ng-container
+            *ngIf="variablesForm.controls['intercambio'].invalid && (variablesForm.controls['intercambio'].dirty || variablesForm.controls['intercambio'].touched)">
+            <p class="caption status-danger" *ngIf="variablesForm.controls['intercambio'].errors?.['required']">El
+              campo es obligatorio</p>
+            <p class="caption status-danger"
+              *ngIf="variablesForm.controls['intercambio'].errors?.['min'] || variablesForm.controls['intercambio'].errors?.['max']">
+              El tiempo de intercambio no es válido</p>
+          </ng-container>
+        </div>
+      </div>
+    </form>
+  </nb-card-body>
+  <nb-card-footer>
+    <div class="container-btn">
+      <button nbButton status="primary" (click)="continuar()">Confirmar</button>
+    </div>
+  </nb-card-footer>
+</nb-card>

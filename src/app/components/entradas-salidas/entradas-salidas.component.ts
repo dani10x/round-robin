@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { NbDialogRef } from '@nebular/theme';
-import { EntradaYSalida } from 'src/app/models/entradaYSalida';
+import { EntradaYSalida } from 'src/app/models/entrada-y-salida';
 
 @Component({
   selector: 'app-entradas-salidas',
