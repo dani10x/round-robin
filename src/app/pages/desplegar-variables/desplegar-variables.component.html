@@ -1,0 +1,15 @@
+<nb-card>
+  <nb-card-header>Diagrama de Gant</nb-card-header>
+  <nb-card-body>
+    <div class="row">
+      <div *ngFor="let item of procesos" class="col-sm-1">
+        <app-proceso-gant [proceso]="item"></app-proceso-gant>
+      </div>
+    </div>
+  </nb-card-body>
+  <nb-card-footer>
+    <div class="container-btn">
+      <button nbButton status="primary" (click)="reiniciar()">Reiniciar</button>
+    </div>
+  </nb-card-footer>
+</nb-card>

@@ -3,7 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NbThemeModule, NbLayoutModule, NbCardModule, NbInputModule, NbDialogModule, NbButtonModule, NbListModule, NbToastrModule, NbGlobalPhysicalPosition } from '@nebular/theme';
+import { NbThemeModule, NbLayoutModule, NbCardModule, NbInputModule, NbDialogModule, NbButtonModule, NbListModule, NbToastrModule, NbGlobalPhysicalPosition, NbSpinnerModule } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { AppRoutingModule } from './app-routing.module';
 import { ProcesoComponent } from './components/proceso/proceso.component';
@@ -12,6 +12,8 @@ import { EntradasSalidasComponent } from './components/entradas-salidas/entradas
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EntradaSalidaElementoComponent } from './components/entrada-salida-elemento/entrada-salida-elemento.component';
 import { VariablesComponent } from './pages/variables/variables.component';
+import { ProcesoGantComponent } from './components/proceso-gant/proceso-gant.component';
+import { DesplegarVariablesComponent } from './pages/desplegar-variables/desplegar-variables.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { VariablesComponent } from './pages/variables/variables.component';
     AgregarProcesosComponent,
     EntradasSalidasComponent,
     EntradaSalidaElementoComponent,
-    VariablesComponent
+    VariablesComponent,
+    ProcesoGantComponent,
+    DesplegarVariablesComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +40,8 @@ import { VariablesComponent } from './pages/variables/variables.component';
     NbListModule,
     ReactiveFormsModule,
     FormsModule,
-    NbToastrModule.forRoot({ position: NbGlobalPhysicalPosition.TOP_RIGHT })
+    NbToastrModule.forRoot({ position: NbGlobalPhysicalPosition.TOP_RIGHT }),
+    NbSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent]

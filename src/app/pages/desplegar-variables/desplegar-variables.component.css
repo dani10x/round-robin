@@ -1,0 +1,10 @@
+.col-sm-1 {
+  padding-left: 0;
+  padding-right: 0;
+  padding-bottom: 5%;
+}
+
+.container-btn {
+  display: flex;
+  justify-content: flex-end;
+}
