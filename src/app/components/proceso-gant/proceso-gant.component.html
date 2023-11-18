@@ -1,0 +1,26 @@
+<div class="parent">
+  <div class="div1 flex-center-center">
+    <p>{{ proceso.proceso }}</p>
+  </div>
+  <div *ngIf="proceso.intercambio" class="div2 flex-right-down">
+    <p>{{ proceso.intercambio.salida }}</p>
+  </div>
+  <div class="div3 flex-top-center">
+    <p>{{ proceso.quantum }}</p>
+  </div>
+  <div *ngIf="proceso.inicio" class="div4 flex-right-down">
+    <p>{{ proceso.entrada }}</p>
+  </div>
+  <div class="div5 flex-right-down">
+    <p>{{ proceso.salida }}</p>
+  </div>
+  <div *ngIf="proceso.intercambio" class="div6 flex-center-center">
+    <p>{{ proceso.intercambio.visualizacion }}</p>
+  </div>
+  <div *ngIf="!proceso.intercambio" class="div6 flex-center-center transparent">
+    <p></p>
+  </div>
+  <div *ngIf="proceso.intercambio" class="div7 flex-top-center">
+    <p>{{ proceso.intercambio.quantum }}</p>
+  </div>
+</div>

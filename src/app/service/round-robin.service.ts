@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { Proceso } from '../models/proceso';
 import { VariablesService } from './variables.service';
 import { MetodosUtil } from '../utils/metodos';
+import { ProcesoGant } from '../models/proceso-gant';
+import { IntercambioGant } from '../models/intercambio-gant';
+import { Observable, Subscriber } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -28,6 +31,8 @@ export class RoundRobinService {
   private tiempoI = 0;
   /**Bandera que indica que se está realizando intercambio */
   private intercambio = false;
+  /**Array que contiene la representacion de los procesos que pasaron por el procesador, con el fin de ser representados en un diagrama de Gant*/
+  private diagrama: ProcesoGant[] = [];
 
   constructor(variablesService: VariablesService) {
     this.INTERCAMBIO = variablesService.getIntercambio();
@@ -56,25 +61,32 @@ export class RoundRobinService {
   /**
    * Ejecucion del algoritmo round robin
    */
-  public roundRobin(): void {
-    this.procesos.sort(this.ordenarProcesoAscendente);
-    console.log(this.procesos);
-    while (true) {
-      this.nuevoAListo();
-      this.asignarProcesador();
-      this.restarTiempoProcesador();
+  public roundRobin(): Observable<void> {
+    return new Observable<void>((subscriber: Subscriber<void>) => {
+      this.procesos.sort(this.ordenarProcesoAscendente);
+      console.log(this.procesos);
 
-      if (this.colaListos.length === 0 && this.procesos.length === 0 && this.procesoEnProcesador.identificador === -1) {
-        console.log('finalizacion');
-        break;
-      }
-      if (this.tiempo === 20000) {
-        console.log('time out');
-        break;
-      }
-      this.tiempo++;
-    }
+      const intervalId = setInterval(() => {
+        this.nuevoAListo();
+        this.asignarProcesador();
+        this.restarTiempoProcesador();
 
+        if (this.colaListos.length === 0 && this.procesos.length === 0 && this.procesoEnProcesador.identificador === -1) {
+          console.log('finalizacion');
+          this.eliminarUltimoIntercambio()
+          clearInterval(intervalId);
+          subscriber.complete();
+        }
+
+        if (this.tiempo === 20000) {
+          console.log('time out');
+          clearInterval(intervalId);
+          subscriber.complete();
+        }
+
+        this.tiempo++;
+      }, 0);
+    });
   }
 
   /**
@@ -114,6 +126,7 @@ export class RoundRobinService {
    */
   private restarNecesidadQ(): void {
     this.procesoEnProcesador.necesidadCPU--;
+    this.agregarProcesoDiagrama(this.tiempo - this.INTERCAMBIO, this.procesoEnProcesador.identificador, this.tiempo);
     if (this.procesoEnProcesador.necesidadCPU !== 0) {
       this.colaListos.push(this.procesoEnProcesador);
       console.log('le queda:' + this.procesoEnProcesador.necesidadCPU + ' tiempo:' + this.tiempo);
@@ -181,13 +194,60 @@ export class RoundRobinService {
    */
   private realizarEyS(proceso: Proceso): void {
     let eys = proceso.entradasSalidas.shift();
-    if(eys) {
+    if (eys) {
       proceso.tiempoLlegada = MetodosUtil.quantumToMs(eys.tiempoEYS, this.Q) + this.tiempo;
       proceso.necesidadCPU = eys.necesidadCPU;
       this.procesos.push(proceso);
       this.procesos.sort(this.ordenarProcesoAscendente);
-      console.log('realiza e/s: ' + proceso.identificador +  ', llegada en: ' + proceso.tiempoLlegada)
+      console.log('realiza e/s: ' + proceso.identificador + ', llegada en: ' + proceso.tiempoLlegada)
     }
   }
 
+  /**
+   * Obtiene el array de objetos para la visualización del diagrama de Gant
+   * @returns
+   */
+  public getDiagrama(): ProcesoGant[] {
+    return this.diagrama;
+  }
+
+  /**
+   * Agrega un proceso que sale de procesador con el formato necesario para ser representado
+   * en el diagrama de gant, al array de procesos de gant
+   * @param salida tiempo de salida del proceso del procesador
+   * @param proceso identificador del proceso que sale del procesador
+   * @param salidaIntercambio  tiempo de finalizacion del intercambio
+   */
+  private agregarProcesoDiagrama(salida: number, proceso: number, salidaIntercambio?: number): void {
+    const procesoGant = new ProcesoGant();
+    procesoGant.salida = salida;
+    procesoGant.proceso = 'P' + proceso;
+    procesoGant.quantum = 1;
+    if (this.diagrama.length === 0) {
+      procesoGant.entrada = this.tiempo - this.Q - this.INTERCAMBIO;
+      procesoGant.inicio = true;
+    }
+    else {
+      procesoGant.inicio = false;
+    }
+    if (salidaIntercambio) {
+      const intercambioGant = new IntercambioGant();
+      intercambioGant.salida = salidaIntercambio;
+      intercambioGant.quantum = (this.INTERCAMBIO / this.Q).toFixed(2);
+      procesoGant.intercambio = intercambioGant;
+    }
+    this.diagrama.push(procesoGant);
+  }
+
+  /**
+   * Elimina el último intercambio del array de procesos de gant, para evitar su
+   * representación en el diagrama de Gant
+   */
+  private eliminarUltimoIntercambio(): void {
+    const procesoGant = this.diagrama.pop();
+    if (procesoGant) {
+      procesoGant.intercambio = undefined;
+      this.diagrama.push(procesoGant);
+    }
+  }
 }
