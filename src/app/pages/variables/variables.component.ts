@@ -20,7 +20,7 @@ export class VariablesComponent implements OnInit {
 
   ngOnInit(): void {
     this.initForm();
-    if(this.roundRobinService.getDiagrama().length !== 0){
+    if (this.roundRobinService.getDiagrama().length !== 0) {
       this.reiniciar();
     }
   }
